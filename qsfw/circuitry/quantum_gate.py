@@ -7,13 +7,10 @@ IMAG = 0.+1j
 IMAG_NEG = 0.-1j
 
 """
-Abstrakte Klassen für Qubit-Gates
+Abstract classes for quantum gates
 """
 
 class QGate:
-	def do_something(self):
-		pass
-
 	def targeted_qubits(self) -> int:
 		return 0
 
@@ -24,18 +21,12 @@ class Q1Gate(QGate):
 	def targeted_qubits(self) -> int:
 		return 1
 
-	def do_something(self):
-		pass
-
 class Q2Gate(QGate):
 	def __init__(self):
 		self.matrix = np.ndarray(shape = (4,4), dtype = complex)
 
 	def targeted_qubits(self) -> int:
 		return 2
-
-	def do_something(self):
-		pass
 
 class Q3Gate(QGate):
 	def __init__(self):
@@ -44,11 +35,8 @@ class Q3Gate(QGate):
 	def targeted_qubits(self) -> int:
 		return 3
 
-	def do_something(self):
-		pass
-
 """
-Klassen/Implementierungen spezifischer Gates
+Implementations of specific gates
 """
 
 # #############################################################################
@@ -109,12 +97,9 @@ class TPhaseGate(Q1Gate):
 		self.matrix[0,1] = self.matrix[1,0] = 0
 		self.matrix[1,1] = cmath.exp(IMAG * math.pi / 4)
 
-class Measurement(Q1Gate): # Spezielles 1-Qubit Gate
-	def do_something(self):
-		# Zustand, der bei der Messung rauskommt, 'würfeln'
-		# Entsprechend des 'Würfelns' eine Matrix festlegen, die dann
-		# den resultierenden Zustand 'produziert'
-		pass
+class Measurement(Q1Gate):
+	# TODO
+	pass
 
 # #############################################################################
 # #### 2-Qubit-Gates ##########################################################

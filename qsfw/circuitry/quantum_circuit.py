@@ -1,5 +1,4 @@
 import numpy as np
-import queue
 from collections import deque
 
 from .quantum_gate import *

@@ -3,13 +3,6 @@ import numpy as np
 
 import qsfw.circuitry.quantum_gate as gt
 
-"""
-TODO:
-	- alles hübsch machen
-	- testen mit Frank's Beispielen ob auch wirklich alles funktioniert wie gewünscht
-	- Messung einbauen
-"""
-
 class QuantumState():
 	"""
 	A class to present a quantum state.
@@ -89,14 +82,11 @@ class QuantumState():
 
 		qubits_idx = tuple(qubits_idx)
 
-		# Erstmal rausfinden welche Basiszustände/Komponenten von unserer
-		# Operation jetzt betroffen sind. Dafür gehen wir durch die aktuelle Liste
-		# der Teilzustände mit Anteil != 0.0+0j und finden pro Teilzustand potentiell
-		# betroffene andere Teilzustände
-		# Und dann "lassen" wir das Gate auf die betroffenen Teilzustände wirken, d.h.
-		# wir nehmen die Anteile der betroffenen Teilzustände, bauen einen Vektor draus,
-		# wenden die Matrix des Gates darauf an und schreiben die veränderten Anteile
-		# dann zurück in unseren Gesamtzustand
+		# Step to apply gate to quantum state:
+		# 	- find out which partial states are affected by the operation
+		# 	- construct a vector from the shares of the affected states
+		# 	- do matrix multiplication of that vector with gate matrix
+		# 	- write back the adjusted shares to our state dictionary
 		components_copy = self.components.copy()
 		already_processed = []
 		for c_key in components_copy.keys():
@@ -147,28 +137,6 @@ class QuantumState():
 			for i in range(2):
 				mod_state[qubits[0]] = i
 				affected.extend(self.__affected_states(tuple(mod_state), tuple(mod_qubits)))
-
-		# The following can be optimised by making it recursive.
-		# if len(qubits) == 1:
-		# 	for i in range(2):
-		# 		state_l[qubits[0]] = i
-		# 		affected.append(tuple(state_l))
-			
-		# elif len(qubits) == 2:
-		# 	for i in range(2):
-		# 		state_l[qubits[0]] = i
-		# 		for j in range(2):
-		# 			state_l[qubits[1]] = j
-		# 			affected.append(tuple(state_l))
-				
-		# elif len(qubits) == 3:
-		# 	for i in range(2):
-		# 		state_l[qubits[0]] = i
-		# 		for j in range(2):
-		# 			state_l[qubits[1]] = j
-		# 			for k in range(2):
-		# 				state_l[qubits[2]] = k
-		# 				affected.append(tuple(state_l))
 
 		return affected
 	
