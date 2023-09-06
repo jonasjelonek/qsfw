@@ -141,6 +141,14 @@ class QuantumState():
 		return affected
 	
 	def __cleanup_components(self):
-		# TODO: Remove all entries that have a share of ~0.0
+		for c_key in self.components.copy().keys():
+			if abs(self.components[c_key]) < 1e-10+0j:
+				self.components[c_key] = 0.0+0j
+			elif 1.0+0j - self.components[c_key] < 1e-10+0j:
+				self.components[c_key] = 1.0+0j
+
+			# Remove all entries that have a share of ~0.0
+			#if self.components[c_key] == 0.0+0j:
+			#	del self.components[c_key]
 
 		self.components = dict(sorted(self.components.items()))
