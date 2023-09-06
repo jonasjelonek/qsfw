@@ -1,0 +1,10 @@
+[book]
+authors = ["Jonas Jelonek"]
+language = "de"
+multilingual = false
+src = "src"
+title = "Schnittstelle Quantenframework"
+
+[output.html]
+
+[output.pdf]

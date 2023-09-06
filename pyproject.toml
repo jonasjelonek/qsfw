@@ -1,0 +1,10 @@
+[project]
+name = "qsfw"
+version = "1.0"
+dependencies = [
+    "numpy",
+    "shunting_yard"
+]
+authors = [
+    { name = "Jonas Jelonek", email = "jonas.jelonek@hs-nordhausen.de" }
+]
