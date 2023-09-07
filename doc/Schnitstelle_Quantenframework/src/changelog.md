@@ -3,17 +3,22 @@
 <table><tbody>
 <tr>
     <td>30.08.2023</td>
-    <td>Initial version</td>
+    <td>Initiale Version</td>
 </tr>
 <tr>
-    <td>05.09.2023</td>
+    <td>07.09.2023</td>
     <td>
         <ul>
             <li>
-                Corrected type specification for parameter 'angle' of command 'phase' and 'cphase' to only allow a numeric expression which
-                allowed with type 'float'. The type 'str' is no longer allowed.
+                Die Typspezifikation für den Parameter `angle` der Funktionen `phase` und `cphase` wurde korrigiert. Er akzeptiert nur
+                numerische Ausdrücke über den Typ `float` statt wie bisher auch `str`. Numerische Ausdrücke (bspw. '2 * e') sind ohne
+                Anführungszeichen anzugeben.
             </li>
-            <li>Added changelog</li>
+            <li>
+                Erlaubte Anfangszustände bei der Funktion `circuit` wurden angepasst. Es sind jetzt auch `+` und `-` erlaubt zur
+                Angabe bereits überlagerter Zustände. `+` und `-` müssen ohne Anführungszeichen angegeben werden.
+            </li>
+            <li>Changelog hinzugefügt</li>
         </ul>
     </td>
 </tr>

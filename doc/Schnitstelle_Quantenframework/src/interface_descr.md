@@ -47,7 +47,7 @@ Weiterhin sind Kommentare wie man sie aus `C` kennt möglich, also:
 |-------------------|-----------|--------------|
 | `circuit`			| | `circuit` definiert einen Quantenschaltkreis, der für die nachfolgenden Aktionen die Grundlage bildet. Alle weiteren Funktionen können nur auf einem existierenden Quantenschaltkreis ausgeführt werden. Die Qubits, die mit diesem Befehl im Quantenschaltkreis initialisiert werden, bekommen eine ID zugewiesen die für nachfolgende Befehle genutzt wird und sich während der gesamten Lebenszeit des Schaltkreises nicht ändert. **Es gibt zwei Varianten des `circuit` Befehls die sich im Format der Argumente unterscheiden.** |
 | (1) | (`n: int`) | Die Übergabe eines Integer-Werts, definiert den Schaltkreis mit `n` Qubits und jeweils dem Standardzustand von \|0>. Die Qubits bekommen implizit eine aufsteigende ID zugewiesen, startend bei `0`. |
-| (2) | (`q0: (str, int)`, `q1: (str, int)`, `...`) | Werden dem Befehl mehrere komma-separierte 2-Tupel (syntaktisch: `(..,..)`) übergeben, können damit explizit die Qubits mit ihren IDs und den Anfangszuständen festgelegt werden. Beispielsweise würde ein Tupel `('a', 1)` festlegen, dass ein Qubit initialisiert wird mit der festen ID `a` und dem Anfangszustand `1`. |
+| (2) | (`q0: (str, int)`, `q1: (str, int)`, `...`) | Werden dem Befehl mehrere komma-separierte 2-Tupel (syntaktisch: `(..,..)`) übergeben, können damit explizit die Qubits mit ihren IDs und den Anfangszuständen festgelegt werden. Beispielsweise würde ein Tupel `('a', 1)` festlegen, dass ein Qubit initialisiert wird mit der festen ID `a` und dem Anfangszustand `1`. Auch `+` und `-` sind als Startzustände erlaubt, aber ohne `''` oder `""` anzugeben |
 
 ### 1-Qubit-Gates
 
