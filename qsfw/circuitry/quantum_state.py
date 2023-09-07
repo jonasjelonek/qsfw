@@ -36,11 +36,19 @@ class QuantumState():
 
 		if isinstance(values, tuple):
 			for (i, q) in enumerate(values):		# we assigned generated IDs
+				if q == '+' or q == '-':
+					print("TODO")
+					raise NotImplementedError
+				
 				self.qubits_id[str(i)] = i
 				self.init_state.append(q)
 		else:
 			# Here we get a dict with string IDs as keys and the initial states as values
 			for (i, q) in enumerate(values.keys()):
+				if values[q] == '+' or values[q] == '-':
+					print("TODO")
+					raise NotImplementedError
+
 				self.qubits_id[q] = i
 				self.init_state.append(values[q])
 
@@ -71,6 +79,9 @@ class QuantumState():
 			s += '>'
 
 			print(s, ': ', str(self.components[state]), sep=None)
+
+	def is_valid_id(self, id: str) -> bool:
+		return (id in self.qubits_id.keys())
 
 	def apply_gate(self, gate: gt.QGate, target_qubits: tuple):
 		# Gate and number of affected qubits must match!

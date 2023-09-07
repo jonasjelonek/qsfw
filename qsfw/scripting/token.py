@@ -50,6 +50,18 @@ class MathOperator(Token):
 
 	def __repr__(self) -> str:
 		return '\'' + self.content + '\''
+class PlusOperator(MathOperator):
+	def __init__(self):
+		super().__init__('+')
+class MinusOperator(MathOperator):
+	def __init__(self):
+		super().__init__('-')
+class MulOperator(MathOperator):
+	def __init__(self):
+		super().__init__('*')
+class DivOperator(MathOperator):
+	def __init__(self):
+		super().__init__('+')
 class Identifier(Token):
 	def __init__(self, id: str):
 		self.content = id

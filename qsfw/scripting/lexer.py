@@ -61,8 +61,14 @@ class QSLexer():
 						while not (c == '*' and next == '/'):
 							c = next
 							next = it.__next__()
-				elif c == "+" or c == "-" or c == "*" or c == "/":				# Mathematical operators
-					tokens.append(MathOperator(c))
+				elif c == "+":													# Addition operator
+					tokens.append(PlusOperator())
+				elif c == "-":													# Subtraction operator
+					tokens.append(MinusOperator())
+				elif c == "*":													# Multiplication operator
+					tokens.append(MulOperator())
+				elif c == "/":													# Divison operator
+					tokens.append(DivOperator())
 				elif c.isalpha():												# Identifiers
 					ident = c
 					c = it.__next__()

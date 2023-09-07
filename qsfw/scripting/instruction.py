@@ -83,7 +83,7 @@ It is used by the parser to check whether the instructions that were parsed from
 stream are semantically valid.
 """
 instructions_specs: dict[Function, InstructionSpec|tuple[InstructionSpec]] = {
-	Function.Circuit: (InstructionSpec(( ("n", IntegerLiteral) )), InstructionSpec(( ("*", (StringLiteral, IntegerLiteral)), ))),
+	Function.Circuit: (InstructionSpec(( ("n", IntegerLiteral) )), InstructionSpec(( ("*", (StringLiteral, OneOf(IntegerLiteral, PlusOperator, MinusOperator))), ))),
 	Function.Ident: InstructionSpec(( ("qubit", StringLiteral), )),
 	Function.Hadamard: InstructionSpec(( ("qubit", StringLiteral), )),
 	Function.PauliX: InstructionSpec(( ("qubit", StringLiteral), )),

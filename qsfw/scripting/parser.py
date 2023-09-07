@@ -88,6 +88,15 @@ class QSParser():
 
 		return isinstance(token, StringLiteral)
 	
+	def __operator_as_literal(self, token: Token) -> bool:
+		"""__operator_as_literal
+		
+		Checks whether the token is a '+' or '-' which are allowed to be
+		used as value literals instead of '0' and '1'.
+		"""
+
+		return isinstance(token, (PlusOperator, MinusOperator))
+	
 	def __numeric_literal(self, token: Token) -> bool:
 		"""__numeric_literal
 		
@@ -107,13 +116,16 @@ class QSParser():
 		token = token_it.current()
 		parts = []
 
-		while isinstance(token, (FloatLiteral, IntegerLiteral, MathOperator)):
+		if isinstance(token, (FloatLiteral, IntegerLiteral)):
 			parts.append(token)
 			token = token_it.next()
-
-		if len(parts) == 0:
+			while isinstance(token, (FloatLiteral, IntegerLiteral, MathOperator)):
+				parts.append(token)
+				token = token_it.next()
+		else:
 			return None
-		elif len(parts) == 1 and isinstance(parts[0], (FloatLiteral, IntegerLiteral)):
+
+		if len(parts) == 1 and isinstance(parts[0], (FloatLiteral, IntegerLiteral)):
 			# Here we have a literal detected as NumericExpression
 			token_it.prev()
 			return None
@@ -133,7 +145,7 @@ class QSParser():
 			print(f"[parser] Expected left bracket for tuple but got '{type(token_it.current())}'")
 			return None
 		
-		if self.__string_literal(token_it.next()):
+		if self.__string_literal(token_it.next()) or self.__operator_as_literal(token_it.current()):
 			part = token_it.current()
 		else:
 			part = self.__numeric_expr(token_it)
@@ -147,7 +159,7 @@ class QSParser():
 
 		self.__expect_comma(token_it.next())
 
-		if self.__string_literal(token_it.next()):
+		if self.__string_literal(token_it.next()) or self.__operator_as_literal(token_it.current()):
 			part = token_it.current()
 		else:
 			part = self.__numeric_expr(token_it)
@@ -169,7 +181,7 @@ class QSParser():
 
 		token = token_it.next()
 		
-		if self.__string_literal(token):
+		if self.__string_literal(token) or self.__operator_as_literal(token_it.current()):
 			return Argument(token)
 		
 		arg = self.__numeric_expr(token_it)
@@ -213,6 +225,21 @@ class QSParser():
 		instr = Instruction(func, args)
 		return instr
 
+	def __check_instance_for_type(self, instance: any, ty: any) -> bool:
+		if isinstance(ty, OneOf):
+			target_types = list(ty.variants)
+			for x in target_types.copy():
+				target_types.append(type(x))
+				
+			target_types = tuple(target_types)
+		elif isinstance(ty, tuple):
+			target_types = tuple
+		else:
+			target_types = ty
+
+		# In case of tuple, deeper check won't be performed!
+		return isinstance(instance, target_types)
+
 	def __check_instr_for_spec(self, instr: Instruction, spec: InstructionSpec):
 		"""__check_instr_for_spec
 		
@@ -240,16 +267,7 @@ class QSParser():
 		
 		j = 0
 		for i in range(num_of_args):
-			if isinstance(spec.args[j][1], OneOf):
-				target_types = list(spec.args[j][1].variants)
-				for x in target_types.copy():
-					target_types.append(type(x))
-				
-				target_types = tuple(target_types)
-			else:
-				target_types = (spec.args[j][1], type(spec.args[j][1]))
-
-			if not isinstance(instr.args[i].content, target_types):
+			if not self.__check_instance_for_type(instr.args[i].content, spec.args[j][1]):
 				return (
 					TypeError(),
 					f"'{str(func)}' expects {spec.args[j][1]} but got {type(instr.args[i].content)}."
@@ -259,11 +277,11 @@ class QSParser():
 				if len(spec.args[j][1]) != len(instr.args[i].content):
 					return (
 						TypeError(),
-						f"'{str(func)}' expected tuple of length {spec.args[j][1]} but got {len(instr.args[i].content)} elements"
+						f"'{str(func)}' expected tuple of length {len(spec.args[j][1])} but got {len(instr.args[i].content)} elements"
 					)
 
 				for k in range(len(spec.args[j][1])):
-					if not isinstance(instr.args[i].content[k], spec.args[j][1][k]):
+					if not self.__check_instance_for_type(instr.args[i].content[k], spec.args[j][1][k]):
 						return (
 							TypeError(),
 							f"'{str(func)}' expected {spec.args[j][1][k]} as tuple element but got {type(instr.args[i].content[k])}."

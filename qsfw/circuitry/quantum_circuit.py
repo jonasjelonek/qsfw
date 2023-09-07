@@ -14,7 +14,8 @@ class QuantumCircuit():
 			QuantumCircuit should have. Each qubit will receive an ascending
 			string ID starting from '0' and will have the initial state '0'.
 		- or a dictionary with a self-chosen ID as key and the initial state
-			as value.
+			as value. The key must be string, the value can be either integer
+			for states 0 and 1, or string for states '+' and '-'.
 		"""
 
 		self.gates = deque()
@@ -29,14 +30,17 @@ class QuantumCircuit():
 		"""
 
 		# Initialise quantum state
-		if type(qubits) == 'int':
+		if isinstance(qubits, int):
 			values = [0 for _ in range(qubits)]
 			self.quantum_state = QuantumState(values)
-		elif type(qubits) == 'dict':
+		elif isinstance(qubits, dict):
 			for q in qubits.values():
-				assert 0 >= q <= 1
+				assert q == '+' or q == '-' or 0 <= int(q) <= 1
 			
 			self.quantum_state = QuantumState(qubits)
+		else:
+			print(f"Expected int or dict, got {type(qubits)}")
+			raise TypeError
 
 	def add_gate(self, gate: QGate, qubits: tuple[str]):
 		if isinstance(gate, Q2Gate):
