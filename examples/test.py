@@ -81,7 +81,7 @@ z.apply_gate(cnot, ('2', '1'))
 print("Endzustand:")
 z.print()
 
-print("\n================ TEST 5 ================")
+print("\n================ TEST 6 ================")
 z = QuantumState((0, 1, 0, 1))
 ccnot = qgt.ToffoliGate()
 
