@@ -161,7 +161,7 @@ class QuantumState():
 				self.components[c_key] = 1.0+0j
 
 			# Remove all entries that have a share of ~0.0
-			# if self.components[c_key] == 0.0+0j:
-			#	del self.components[c_key]
+			if self.components[c_key] == 0.0+0j:
+				del self.components[c_key]
 
 		self.components = dict(sorted(self.components.items()))
