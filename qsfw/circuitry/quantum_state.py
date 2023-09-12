@@ -21,7 +21,8 @@ class QuantumState():
 	# 				i.e. |0000...0>
 	#					  ^ (index 0)
 
-	def __init__(self, values: tuple[int]|dict[str, int|str]):
+	#def __init__(self, values: tuple[int]|dict[str, int|str]):
+	def __init__(self, values):
 		self.qubits_id = dict()
 		"""
 		Keeps a mapping from qubit IDs to indices within a state tuple. Users
@@ -122,6 +123,7 @@ class QuantumState():
 				comp_vec.append(self.components[e])
 				already_processed.append(e)
 
+			comp_vec = np.array(comp_vec)
 			# Matrix of the gate adjusts the shares by simply matrix multiplication
 			result = gate.matrix @ comp_vec		# operator for matrix multiplication (Python 3.5+)
 
@@ -159,7 +161,7 @@ class QuantumState():
 				self.components[c_key] = 1.0+0j
 
 			# Remove all entries that have a share of ~0.0
-			#if self.components[c_key] == 0.0+0j:
+			# if self.components[c_key] == 0.0+0j:
 			#	del self.components[c_key]
 
 		self.components = dict(sorted(self.components.items()))

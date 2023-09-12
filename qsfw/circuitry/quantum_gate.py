@@ -16,21 +16,21 @@ class QGate:
 
 class Q1Gate(QGate):
 	def __init__(self):
-		self.matrix = np.ndarray(shape = (2,2), dtype = complex)
+		self.matrix = np.zeros(shape = (2,2), dtype = complex)
 
 	def targeted_qubits(self) -> int:
 		return 1
 
 class Q2Gate(QGate):
 	def __init__(self):
-		self.matrix = np.ndarray(shape = (4,4), dtype = complex)
+		self.matrix = np.zeros(shape = (4,4), dtype = complex)
 
 	def targeted_qubits(self) -> int:
 		return 2
 
 class Q3Gate(QGate):
 	def __init__(self):
-		self.matrix = np.ndarray(shape = (8,8), dtype = complex)
+		self.matrix = np.zeros(shape = (8,8), dtype = complex)
 
 	def targeted_qubits(self) -> int:
 		return 3
@@ -136,13 +136,13 @@ class CPhaseGate(Q2Gate):
 class ToffoliGate(Q3Gate):
 	def __init__(self):
 		Q3Gate.__init__(self)
-		self.matrix[0,0] = self.matrix[1,1] = self.matrix[2,2] = \
-			self.matrix[3,3] = self.matrix[4,4] = self.matrix[5,5] = \
-			self.matrix[6,7] = self.matrix[7,6] = 1
+		self.matrix[0,0] = self.matrix[1,1] = self.matrix[2,2] = 1
+		self.matrix[3,3] = self.matrix[4,4] = self.matrix[5,5] = 1
+		self.matrix[6,7] = self.matrix[7,6] = 1
 		
 class CSwapGate(Q3Gate): # Controlled Swap
 	def __init__(self):
 		Q3Gate.__init__(self)
-		self.matrix[0,0] = self.matrix[1,1] = self.matrix[2,2] = \
-			self.matrix[3,3] = self.matrix[4,4] = self.matrix[5,6] = \
-			self.matrix[6,5] = self.matrix[7,7] = 1
+		self.matrix[0,0] = self.matrix[1,1] = self.matrix[2,2] = 1
+		self.matrix[3,3] = self.matrix[4,4] = self.matrix[5,6] = 1
+		self.matrix[6,5] = self.matrix[7,7] = 1
