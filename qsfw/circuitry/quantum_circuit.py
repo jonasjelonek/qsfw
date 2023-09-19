@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 from collections import deque
 
@@ -6,7 +8,7 @@ from .quantum_state import *
 
 class QuantumCircuit():
 	
-	def __init__(self, qubits: int|dict[str,int]):
+	def __init__(self, qubits: int | dict[str,int]):
 		"""__init__
 		
 		qubits:

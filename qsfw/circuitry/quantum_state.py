@@ -1,3 +1,4 @@
+from __future__ import annotations
 import itertools
 import numpy as np
 
@@ -21,8 +22,7 @@ class QuantumState():
 	# 				i.e. |0000...0>
 	#					  ^ (index 0)
 
-	#def __init__(self, values: tuple[int]|dict[str, int|str]):
-	def __init__(self, values):
+	def __init__(self, values: tuple[int] | dict[str, int|str]):
 		self.qubits_id = dict()
 		"""
 		Keeps a mapping from qubit IDs to indices within a state tuple. Users

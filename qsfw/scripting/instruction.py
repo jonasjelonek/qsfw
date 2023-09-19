@@ -1,3 +1,4 @@
+from __future__ import annotations
 from enum import Enum
 from typing import Self
 import shunting_yard as sy
@@ -30,7 +31,7 @@ class Function(Enum):
 			"toffoli", "cswap"
 		]
 
-	def from_token(token: Token) -> Self|None:
+	def from_token(token: Token) -> Self | None:
 		if not isinstance(token, Identifier):
 			return None
 
@@ -82,7 +83,7 @@ This specifies the format (how many arguments, types of arguments) each function
 It is used by the parser to check whether the instructions that were parsed from the token
 stream are semantically valid.
 """
-instructions_specs: dict[Function, InstructionSpec|tuple[InstructionSpec]] = {
+instructions_specs: dict[Function, InstructionSpec | tuple[InstructionSpec]] = {
 	Function.Circuit: (InstructionSpec(( ("n", IntegerLiteral) )), InstructionSpec(( ("*", (StringLiteral, IntegerLiteral)), ))),
 	Function.Ident: InstructionSpec(( ("qubit", StringLiteral), )),
 	Function.Hadamard: InstructionSpec(( ("qubit", StringLiteral), )),
