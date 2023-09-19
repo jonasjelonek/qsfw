@@ -55,7 +55,7 @@ Weiterhin sind Kommentare wie man sie aus `C` kennt möglich, also:
 |-------------------|-----------|--------------|
 | `ident` | (`qubit: str`) | Identitäts-Gate |
 | `hadamard` | (`qubit: str`) | Hadamard-Gate |
-| `phase` | (`qubit: str`, `angle: float`) | Phase-Shift-Gate; angle ist NICHT in **Grad** sondern **Radiant**, also basierend auf `π`. Als Winkel kann bspw. auch ein Ausdruck wie `2 * π` oder `π / 4` genutzt werden um nicht Dezimalzahlen nutzen zu müssen. |
+| `phase` | (`qubit: str`, `angle: float`) | Phase-Shift-Gate; angle ist NICHT in **Grad** sondern **Radiant**, also basierend auf `π`. Als Winkel kann bspw. auch ein Ausdruck wie `2 * π` oder `π / 4` genutzt werden um nicht Dezimalzahlen nutzen zu müssen. Alternativ zum Unicode-Zeichen `π` kann auch `pi` genutzt werden. |
 | `pauliX` | (`qubit: str`) | Pauli-X-Gate, auch NOT-Gate genannt. |
 | `pauliY` | (`qubit: str`) | Pauli-Y-Gate |
 | `pauliZ` | (`qubit: str`) | Pauli-Z-Gate; ist eine Spezialform des Phase-Shift-Gate mit einem Winkel von `π`. |

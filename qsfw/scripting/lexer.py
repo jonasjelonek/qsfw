@@ -1,3 +1,4 @@
+from .common import BidirectionalIterator
 from .token import *
 
 class QSLexer():
@@ -8,8 +9,8 @@ class QSLexer():
 		tokens = []
 
 		try:
-			it = iter(content)
-			c = it.__next__()
+			it = BidirectionalIterator(content)
+			c = it.next()
 			while 1: # Go char by char
 				keep_char = False
 
@@ -23,26 +24,30 @@ class QSLexer():
 					tokens.append(Comma())
 				elif c == '\'':													# String literal with single quotes
 					lit = ''
-					c = it.__next__()
+					c = it.next()
 					while c != '\'':
 						lit += c
-						c = it.__next__()
+						c = it.next()
 					
 					tokens.append(StringLiteral(lit))
 				elif c == '"':													# String literal with double quotes
 					lit = ''
-					c = it.__next__()
+					c = it.next()
 					while c != '"':
 						lit += c
-						c = it.__next__()
+						c = it.next()
 					
 					tokens.append(StringLiteral(lit))
-				elif c.isnumeric() or c == 'π' or c == 'e':						# Float (including π and e) or Integer literal
+				elif c == 'π' or (c == 'p' and it.peek() == 'i'):				# π or pi as float literal
+					tokens.append(FloatLiteral('pi'))
+					if c != 'π':
+						it.next()
+				elif c.isnumeric() or c == 'e':									# Float (including e) or Integer literal
 					num_lit = c
-					c = it.__next__()
+					c = it.next()
 					while c.isnumeric() or c == '.':
 						num_lit += c
-						c = it.__next__()
+						c = it.next()
 
 					keep_char = True
 					if num_lit.isnumeric():
@@ -50,17 +55,17 @@ class QSLexer():
 					else:
 						tokens.append(FloatLiteral(num_lit))
 				elif c == '/':													# Comments
-					next = it.__next__()
+					next = it.next()
 					if next == '/': # comment until end of line
-						c = it.__next__()
+						c = it.next()
 						while c != '\n':
-							c = it.__next__()
+							c = it.next()
 					elif next == '*': # comment until */ is encountered
-						c = it.__next__()
-						next = it.__next__()
+						c = it.next()
+						next = it.next()
 						while not (c == '*' and next == '/'):
 							c = next
-							next = it.__next__()
+							next = it.next()
 				elif c == "+":													# Addition operator
 					tokens.append(PlusOperator())
 				elif c == "-":													# Subtraction operator
@@ -71,17 +76,17 @@ class QSLexer():
 					tokens.append(DivOperator())
 				elif c.isalpha():												# Identifiers
 					ident = c
-					c = it.__next__()
+					c = it.next()
 					while c.isalpha() or c == "_":
 						ident += c
-						c = it.__next__()
+						c = it.next()
 
 					keep_char = True
 					tokens.append(Identifier(ident))
 				# Whitespace will be skipped
 
 				if not keep_char:
-					c = it.__next__()
+					c = it.next()
 		except StopIteration:
 			pass
 

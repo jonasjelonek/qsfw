@@ -5,7 +5,7 @@ pauliX('a');
 pauliY('b');
 pauliZ('c');
 tphase('b');
-phase('a', 2 * π);
+phase('a', 2 * pi);
 measure('a');
 
 cnot('a', 'b');
