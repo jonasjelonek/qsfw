@@ -1,5 +1,5 @@
-from .lexer import *
-from .parser import *
+from qsfw.scripting.lexer import *
+from qsfw.scripting.parser import *
 import qsfw.circuitry.quantum_circuit as qcct
 
 class QSInterpreter():

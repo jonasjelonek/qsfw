@@ -1,5 +1,5 @@
-from .common import BidirectionalIterator
-from .token import *
+from qsfw.scripting.common import BidirectionalIterator
+from qsfw.scripting.token import *
 
 class QSLexer():
 	def __init__(self):

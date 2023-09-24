@@ -1,6 +1,6 @@
-from .common import BidirectionalIterator
-from .lexer import *
-from .instruction import *
+from qsfw.scripting.common import BidirectionalIterator
+from qsfw.scripting.lexer import *
+from qsfw.scripting.instruction import *
 
 class QSParser():
 
