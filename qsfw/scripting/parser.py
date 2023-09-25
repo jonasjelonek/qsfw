@@ -1,3 +1,4 @@
+from __future__ import annotations
 from qsfw.scripting.common import BidirectionalIterator
 from qsfw.scripting.lexer import *
 from qsfw.scripting.instruction import *

@@ -1,6 +1,5 @@
 from __future__ import annotations
 from enum import Enum
-from typing import Self
 import shunting_yard as sy
 
 from .token import *
@@ -31,7 +30,7 @@ class Function(Enum):
 			"toffoli", "cswap"
 		]
 
-	def from_token(token: Token) -> Self | None:
+	def from_token(token: Token) -> 'Function' | None:
 		if not isinstance(token, Identifier):
 			return None
 

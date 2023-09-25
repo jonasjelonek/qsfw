@@ -1,3 +1,4 @@
+from __future__ import annotations
 from qsfw.scripting.lexer import *
 from qsfw.scripting.parser import *
 import qsfw.circuitry.quantum_circuit as qcct
@@ -60,63 +61,63 @@ class QSInterpreter():
 		for i in range(1, len(self.instructions)):
 			instr = self.instructions[i]
 			args = instr.args
-			match instr.function:
-				case Function.Circuit:
-					print("[interpreter] Only one 'circuit' instruction is allowed")
-					raise RuntimeError
-				case Function.Ident:
-					qc.add_identity_gate(args[0].content.get())
-				case Function.Hadamard:
-					qc.add_hadamard_gate(args[0].content.get())
-				case Function.PauliX:
-					qc.add_pauliX_gate(args[0].content.get())
-				case Function.PauliY:
-					qc.add_pauliY_gate(args[0].content.get())
-				case Function.PauliZ:
-					qc.add_pauliZ_gate(args[0].content.get())
-				case Function.SPhase:
-					qc.add_sphase_gate(args[0].content.get())
-				case Function.TPhase:
-					qc.add_tphase_gate(args[0].content.get())
-				case Function.Measure:
-					qc.add_measurement_gate(args[0].content.get())
-				case Function.Phase:
-					qc.add_phase_gate(
-						args[0].content.get(),
-						args[1].content.eval()		# This must be a NumericExpression which has an eval method
-					)
-				case Function.CNot:
-					qc.add_cnot_gate(
-						args[0].content.get(),
-						args[1].content.get()
-					)
-				case Function.Swap:
-					qc.add_swap_gate(
-						args[0].content.get(),
-						args[1].content.get()
-					)
-				case Function.CZ:
-					qc.add_cz_gate(
-						args[0].content.get(),
-						args[1].content.get()
-					)
-				case Function.CPhase:
-					qc.add_cphase_gate(
-						args[0].content.get(),
-						args[1].content.get(),
-						args[2].content.eval()		# This must be a NumericExpression which has an eval method
-					)
-				case Function.Toffoli:
-					qc.add_toffoli_gate(
-						args[0].content.get(),
-						args[1].content.get(),
-						args[2].content.get()
-					)
-				case Function.CSwap:
-					qc.add_cswap_gate(
-						args[0].content.get(),
-						args[1].content.get(),
-						args[2].content.get()
-					)
+
+			if instr.function == Function.Circuit:
+				print("[interpreter] Only one 'circuit' instruction is allowed")
+				raise RuntimeError
+			elif instr.function == Function.Ident:
+				qc.add_identity_gate(args[0].content.get())
+			elif instr.function == Function.Hadamard:
+				qc.add_hadamard_gate(args[0].content.get())
+			elif instr.function == Function.PauliX:
+				qc.add_pauliX_gate(args[0].content.get())
+			elif instr.function == Function.PauliY:
+				qc.add_pauliY_gate(args[0].content.get())
+			elif instr.function == Function.PauliZ:
+				qc.add_pauliZ_gate(args[0].content.get())
+			elif instr.function == Function.SPhase:
+				qc.add_sphase_gate(args[0].content.get())
+			elif instr.function == Function.TPhase:
+				qc.add_tphase_gate(args[0].content.get())
+			elif instr.function == Function.Measure:
+				qc.add_measurement_gate(args[0].content.get())
+			elif instr.function == Function.Phase:
+				qc.add_phase_gate(
+					args[0].content.get(),
+					args[1].content.eval()		# This must be a NumericExpression which has an eval method
+				)
+			elif instr.function == Function.CNot:
+				qc.add_cnot_gate(
+					args[0].content.get(),
+					args[1].content.get()
+				)
+			elif instr.function == Function.Swap:
+				qc.add_swap_gate(
+					args[0].content.get(),
+					args[1].content.get()
+				)
+			elif instr.function == Function.CZ:
+				qc.add_cz_gate(
+					args[0].content.get(),
+					args[1].content.get()
+				)
+			elif instr.function == Function.CPhase:
+				qc.add_cphase_gate(
+					args[0].content.get(),
+					args[1].content.get(),
+					args[2].content.eval()		# This must be a NumericExpression which has an eval method
+				)
+			elif instr.function == Function.Toffoli:
+				qc.add_toffoli_gate(
+					args[0].content.get(),
+					args[1].content.get(),
+					args[2].content.get()
+				)
+			elif instr.function == Function.CSwap:
+				qc.add_cswap_gate(
+					args[0].content.get(),
+					args[1].content.get(),
+					args[2].content.get()
+				)
 
 		return qc
