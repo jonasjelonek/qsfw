@@ -110,7 +110,7 @@ class QuantumCircuit():
 
 		return True
 
-	def next_step(self):
+	def next_step(self) -> bool:
 		try:
 			(gate, qubits) = self.gates.popleft()
 			self.quantum_state.apply_gate(gate, qubits)
@@ -119,5 +119,5 @@ class QuantumCircuit():
 		else:
 			return True
 
-	def current_state(self):
+	def print_current_state(self):
 		self.quantum_state.print()

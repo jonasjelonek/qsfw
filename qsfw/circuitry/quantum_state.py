@@ -1,12 +1,15 @@
 from __future__ import annotations
 import itertools
 import numpy as np
+import math
+import functools
+import random
 
 import qsfw.circuitry.quantum_gate as gt
 
 class QuantumState():
 	"""
-	A class to present a quantum state.
+	A class to represent a quantum state.
 
 	Attributes
 	----------
@@ -30,34 +33,31 @@ class QuantumState():
 		internally to another representation.
 		"""
 
-		self.init_state = []
+		init_state = []
+		self.measured = dict()
 		"""
-		
+		Keep track of which qubits in the quantum state were measured and
+		thus cannot be used anymore(?).
 		"""
 
 		if isinstance(values, tuple):
 			for (i, q) in enumerate(values):		# we assigned generated IDs
-				if q == '+' or q == '-':
-					print("TODO")
-					raise NotImplementedError
-				
 				self.qubits_id[str(i)] = i
-				self.init_state.append(q)
+				self.measured[str(i)] = None
+				init_state.append(q)
 		else:
 			# Here we get a dict with string IDs as keys and the initial states as values
 			for (i, q) in enumerate(values.keys()):
-				if values[q] == '+' or values[q] == '-':
-					print("TODO")
-					raise NotImplementedError
-
 				self.qubits_id[q] = i
-				self.init_state.append(values[q])
+				self.measured[q] = False
+				init_state.append(values[q])
 
 		self.components = dict()
 		"""
 		Keep the base states/partial states with their shares.
 		"""
 
+		# THIS IS ONLY FOR DEBUGGING!
 		# The following code would fill the dictionary with all partial states
 		# and a default share of 0.0. This is not required for us but could be
 		# beneficial to understand that all better.
@@ -70,7 +70,7 @@ class QuantumState():
 		#		self.components[tuple(b)] = 0.0
 
 		# The share of the initial state is set to 1.0.
-		self.components[tuple(self.init_state)] = 1.0+0j
+		self.components[tuple(init_state)] = 1.0+0j
 
 	def print(self):
 		for state in self.components.keys():
@@ -84,17 +84,61 @@ class QuantumState():
 	def is_valid_id(self, id: str) -> bool:
 		return (id in self.qubits_id.keys())
 
+	def __do_measurement(self, qubit: int):
+		zero_components = dict()
+		one_components = dict()
+		for c_key in self.components.keys():
+			val = self.components[c_key]
+			if c_key[qubit] == 1:
+				one_components[c_key] = val
+			else:
+				zero_components[c_key] = val
+
+		weight_zero = functools.reduce(lambda a,b: a + math.pow(b, 2), zero_components.values(), 0.0)
+		weight_one = functools.reduce(lambda a,b: a + math.pow(b, 2), one_components.values(), 0.0)
+		if round(weight_one + weight_zero) != 1:
+			print("Houston, we have a problem!")
+			raise ValueError
+
+		meas_result = (random.choices([0, 1], [ weight_zero, weight_one]))[0]
+		print(f"Measurement result: {meas_result}")
+
+		if meas_result == 0:
+			for e in zero_components.keys():
+				self.components[e] = 1.0+0j
+			for e in one_components.keys():
+				self.components[e] = 0.0+0j
+		elif meas_result == 1:
+			for e in zero_components.keys():
+				self.components[e] = 0.0+0j
+			for e in one_components.keys():
+				self.components[e] = 1.0+0j
+		else:
+			raise ValueError
+
+		self.measured[qubit] = meas_result
+		self.__cleanup_components()
+		return
+
 	def apply_gate(self, gate: gt.QGate, target_qubits: tuple):
 		# Gate and number of affected qubits must match!
 		assert len(target_qubits) == gate.targeted_qubits()
 
 		qubits_idx = []
 		for q in target_qubits:
+			if not self.is_valid_id(q):
+				print(f"ID {q} is not a valid identifier")
+				raise ValueError
+
 			qubits_idx.append(self.qubits_id[q])
 
 		qubits_idx = tuple(qubits_idx)
 
-		# Step to apply gate to quantum state:
+		if isinstance(gate, gt.Measurement):
+			self.__do_measurement(qubits_idx[0])
+			return
+
+		# Steps to apply gate to quantum state:
 		# 	- find out which partial states are affected by the operation
 		# 	- construct a vector from the shares of the affected states
 		# 	- do matrix multiplication of that vector with gate matrix
@@ -104,7 +148,7 @@ class QuantumState():
 		for c_key in components_copy.keys():
 			if c_key in already_processed or components_copy[c_key] == 0.0+0j:
 				continue
-			
+
 			# The 'affected' list can now also contain partial states that
 			# do not exist in our 'components' dict yet. For those we just
 			# create new entries with a share of 0+0j
@@ -124,6 +168,7 @@ class QuantumState():
 				already_processed.append(e)
 
 			comp_vec = np.array(comp_vec)
+
 			# Matrix of the gate adjusts the shares by simply matrix multiplication
 			result = gate.matrix @ comp_vec		# operator for matrix multiplication (Python 3.5+)
 
@@ -152,7 +197,7 @@ class QuantumState():
 				affected.extend(self.__affected_states(tuple(mod_state), tuple(mod_qubits)))
 
 		return affected
-	
+
 	def __cleanup_components(self):
 		for c_key in self.components.copy().keys():
 			if abs(self.components[c_key]) < 1e-10+0j:

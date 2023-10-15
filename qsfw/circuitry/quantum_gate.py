@@ -98,8 +98,10 @@ class TPhaseGate(Q1Gate):
 		self.matrix[1,1] = cmath.exp(IMAG * math.pi / 4)
 
 class Measurement(Q1Gate):
-	# TODO
-	pass
+	def __init__(self):
+		Q1Gate.__init__(self)
+		# we do not set a matrix here because the measurement
+		# will be handled in a special way
 
 # #############################################################################
 # #### 2-Qubit-Gates ##########################################################
