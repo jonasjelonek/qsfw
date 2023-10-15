@@ -1,7 +1,6 @@
 from __future__ import annotations
 import itertools
 import numpy as np
-import math
 import functools
 import random
 
@@ -94,13 +93,13 @@ class QuantumState():
 			else:
 				zero_components[c_key] = val
 
-		weight_zero = functools.reduce(lambda a,b: a + math.pow(b, 2), zero_components.values(), 0.0)
-		weight_one = functools.reduce(lambda a,b: a + math.pow(b, 2), one_components.values(), 0.0)
+		weight_zero = functools.reduce(lambda a,b: a + (np.power([b], [2]))[0], zero_components.values(), 0.0+0j)
+		weight_one = functools.reduce(lambda a,b: a + (np.power([b], [2]))[0], one_components.values(), 0.0+0j)
 		if round(weight_one + weight_zero) != 1:
 			print("Houston, we have a problem!")
 			raise ValueError
 
-		meas_result = (random.choices([0, 1], [ weight_zero, weight_one]))[0]
+		meas_result = (random.choices([0, 1], [ weight_zero, weight_one ]))[0]
 		print(f"Measurement result: {meas_result}")
 
 		if meas_result == 0:
@@ -200,9 +199,9 @@ class QuantumState():
 
 	def __cleanup_components(self):
 		for c_key in self.components.copy().keys():
-			if abs(self.components[c_key]) < 1e-10+0j:
+			if abs(self.components[c_key]) < 1e-10:
 				self.components[c_key] = 0.0+0j
-			elif 1.0+0j - self.components[c_key] < 1e-10+0j:
+			elif abs(1.0+0j - self.components[c_key]) < 1e-10:
 				self.components[c_key] = 1.0+0j
 
 			# Remove all entries that have a share of ~0.0
