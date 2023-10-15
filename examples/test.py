@@ -1,3 +1,7 @@
+import sys
+sys.path.append('../')
+sys.path.append('../qsfw')
+
 from qsfw.circuitry.quantum_state import QuantumState
 import qsfw.circuitry.quantum_gate as qgt
 
@@ -41,7 +45,7 @@ z.print()
 
 print("\n================ TEST 3 ================")
 
-
+print("Aktuell nicht umsetzbar da keine überlagerten Anfangszustände angegeben werden können")
 
 print("\n================ TEST 4 ================")
 z = QuantumState((0, 1, 0, 1))

@@ -1,9 +1,15 @@
+import sys
+import os
+sys.path.append('../')
+sys.path.append('../qsfw')
+
 from qsfw.scripting.lexer import *
 from qsfw.scripting.parser import QSParser
 
+script_path = os.path.dirname(__file__)
+
 l = QSLexer()
-#code = "circuit(('a', 4 * π), ('b', 3 * e), ('c', 2));"
-f = open("examples/code.qs")
+f = open(f"{script_path}/code.qs")
 code = f.read()
 
 toks = l.tokenize(code)

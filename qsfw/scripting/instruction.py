@@ -2,7 +2,7 @@ from __future__ import annotations
 from enum import Enum
 import shunting_yard as sy
 
-from .token import *
+from qsfw.scripting.token import *
 
 class Function(Enum):
 	Circuit = 0
