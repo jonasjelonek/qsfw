@@ -53,7 +53,7 @@ class QSInterpreter():
 			for arg in circuit_args:
 				key = arg.content[0].get()
 				val = arg.content[1].get()
-				arg_dict[key] = val
+				arg_dict[key] = int(val)
 			
 			qc = qcct.QuantumCircuit(arg_dict)
 
