@@ -32,8 +32,13 @@ python3 -m qsfw /pfad/zur/programm/datei.qs
 
 Alle Ausgaben und Ereignisse werden dann auf der Standardausgabe ausgegeben und können von der GUI verarbeitet oder direkt vom Anwender gesichtet werden.
 
+Das *QSFW* bietet auch noch verschiedene Kommandozeilen-Parameter. Um alle möglichen Parameter mit einer Erklärung einzusehen, kann das *QSFW* wie folgt aufgerufen werden:
+```bash
+python3 -m qsfw -h
+```
+
 Um eins der vorhandenen Beispiele unter `examples` auszuführen, muss ebenfalls in der Kommandozeile in den Hauptordner
 gewechselt werden und dann das Beispiel wie folgt aufgerufen werden:
 ```bash
-python3 -m examples.<beispiel>
+python3 examples/<beispiel>
 ```

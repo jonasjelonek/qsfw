@@ -18,4 +18,8 @@
         </ul>
     </td>
 </tr>
+<tr>
+    <td>15.10.2023</td>
+    <td>Die Informationen zur Nutzung bzw. wie man das QSFW aufruft wurden angepasst.<td>
+</tr>
 </tbody></table>
