@@ -93,8 +93,9 @@ class QuantumState():
 			else:
 				zero_components[c_key] = val
 
-		weight_zero = abs(functools.reduce(lambda a,b: a + (np.power([b], [2]))[0], zero_components.values(), 0.0+0j))
-		weight_one = abs(functools.reduce(lambda a,b: a + (np.power([b], [2]))[0], one_components.values(), 0.0+0j))
+		pow_and_acc = lambda a,b: a + pow(b.real, 2) + pow(b.imag, 2)
+		weight_zero = abs(functools.reduce(pow_and_acc, zero_components.values(), 0.0))
+		weight_one = abs(functools.reduce(pow_and_acc, one_components.values(), 0.0))
 		if round(weight_one + weight_zero) != 1:
 			print("Houston, we have a problem!")
 			raise ValueError(f"0: {weight_zero} | 1: {weight_one} >> sum must be 1")
