@@ -37,10 +37,12 @@ def run(args: argparse.Namespace):
 	qc = intptr.to_quantum_circuit()
 
 	print(
-		ANSI_COLOR_GREEN_OB,
-		"OUTPUT FORMAT:\nStep X/Final result:\n\t<partial state> :  <proportion of partial state to overall state>\n",
-		ANSI_COLOR_WHITE_OB,
-		sep = ""
+		"##################################################################################\n",
+		"## OUTPUT FORMAT:\t\t\t\t\t\t\t\t##\n",
+		"## Step X/Final result:\t\t\t\t\t\t\t\t##\n",
+		"##\t<partial state> :  <proportion of partial state to overall state>\t##\n",
+		"##################################################################################\n",
+		sep=""
 	)
 	qc.process_gates(args.stepping)
 	
