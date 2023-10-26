@@ -6,6 +6,13 @@ import random
 
 import qsfw.circuitry.quantum_gate as gt
 
+def complex_to_string(c):
+	if c.imag == 0:
+		return f'{c.real:.16g}'
+	if c.real == 0:
+		return f'{c.imag:.16g}j'
+	return f'{c.real:.16g}+{c.imag:.16g}j'
+
 class QuantumState():
 	"""
 	A class to represent a quantum state.
@@ -78,7 +85,8 @@ class QuantumState():
 				s += str(state[i])
 			s += '>'
 
-			print(s, ': ', str(self.components[state]), sep=None)
+			#print(s, ': ', str(self.components[state]), sep=None)
+			print(s, ': ', complex_to_string(self.components[state]), sep=None)
 
 	def is_valid_id(self, id: str) -> bool:
 		return (id in self.qubits_id.keys())
