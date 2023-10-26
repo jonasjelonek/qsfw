@@ -43,6 +43,8 @@ class QuantumCircuit():
 		else:
 			print(f"Expected int or dict, got {type(qubits)}")
 			raise TypeError
+		
+		self.step_counter = 1
 
 	def add_gate(self, gate: QGate, qubits: tuple[str]):
 		if isinstance(gate, Q2Gate):
@@ -99,6 +101,13 @@ class QuantumCircuit():
 		for gate in self.gates:
 			print(f"{type(gate[0])} on '{gate[1]}'")
 
+	def process_gates(self, stepwise: bool) -> bool:
+		if stepwise:
+			while self.has_next_step():
+				self.next_step()
+		else:
+			self.calculate_all()
+
 	def calculate_all(self) -> bool:
 		try:
 			while 1:
@@ -108,15 +117,24 @@ class QuantumCircuit():
 		except IndexError:
 			pass
 
+		print("Final result:")
+		self.print_current_state()
 		return True
 
 	def has_next_step(self) -> bool:
 		return len(self.gates) > 0
 
-	def next_step(self) -> bool:
+	def next_step(self):
 		try:
 			(gate, qubits) = self.gates.popleft()
-			self.quantum_state.apply_gate(gate, qubits)
+			res = self.quantum_state.apply_gate(gate, qubits)
+
+			print(f"Step {self.step_counter}:")
+			if isinstance(gate, Measurement):
+				print(f"\tMeasurement result: {res}")
+				
+			self.print_current_state()
+			self.step_counter += 1
 		except IndexError:
 			return False
 		else:

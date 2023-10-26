@@ -6,6 +6,7 @@ import random
 
 import qsfw.circuitry.quantum_gate as gt
 
+# Modified version of code taken from https://stackoverflow.com/questions/75266962/numpy-ndarray-print-imaginary-part-only-if-not-zero
 def complex_to_string(c):
 	if c.imag == 0:
 		return f'{c.real:.16g}'
@@ -91,7 +92,7 @@ class QuantumState():
 	def is_valid_id(self, id: str) -> bool:
 		return (id in self.qubits_id.keys())
 
-	def __do_measurement(self, qubit: (str, int)):
+	def __do_measurement(self, qubit: (str, int)) -> int:
 		if not self.measured[qubit[0]] is None:
 			raise ValueError("Qubit already measured")
 
@@ -112,8 +113,6 @@ class QuantumState():
 			raise ValueError(f"0: {weight_zero} | 1: {weight_one} >> sum must be 1")
 
 		meas_result = (random.choices([0, 1], [ weight_zero, weight_one ]))[0]
-		print(f"\tMeasurement result: {meas_result}")
-
 		if meas_result == 0:
 			for e in zero_components.keys():
 				self.components[e] = 1.0+0j
@@ -129,9 +128,9 @@ class QuantumState():
 
 		self.measured[qubit[0]] = meas_result
 		self.__cleanup_components()
-		return
+		return meas_result
 
-	def apply_gate(self, gate: gt.QGate, target_qubits: tuple):
+	def apply_gate(self, gate: gt.QGate, target_qubits: tuple) -> bool|int:
 		# Gate and number of affected qubits must match!
 		assert len(target_qubits) == gate.targeted_qubits()
 
@@ -145,8 +144,7 @@ class QuantumState():
 		qubits_idx = tuple(qubits_idx)
 
 		if isinstance(gate, gt.Measurement):
-			self.__do_measurement((target_qubits[0], qubits_idx[0]))
-			return
+			return self.__do_measurement((target_qubits[0], qubits_idx[0]))
 
 		# Steps to apply gate to quantum state:
 		# 	- find out which partial states are affected by the operation
@@ -192,6 +190,7 @@ class QuantumState():
 
 		# Cleanup, i.e. order the dict by keys and remove entries with a share of 0+0j
 		self.__cleanup_components()
+		return True
 
 	def __affected_states(self, state: tuple, qubits: tuple):
 		affected = []

@@ -38,20 +38,11 @@ def run(args: argparse.Namespace):
 
 	print(
 		ANSI_COLOR_GREEN_OB,
-		"OUTPUT FORMAT:\nStep X:\n\t<partial state> :  <proportion of partial state to overall state>\n",
+		"OUTPUT FORMAT:\nStep X/Final result:\n\t<partial state> :  <proportion of partial state to overall state>\n",
 		ANSI_COLOR_WHITE_OB,
 		sep = ""
 	)
-	if args.stepping:
-		i = 1
-		while qc.has_next_step():
-			print(f"Step {i}: ")
-			qc.next_step()
-			qc.print_current_state()
-			i += 1
-	else:
-		qc.calculate_all()
-		qc.print_current_state()
+	qc.process_gates(args.stepping)
 	
 	print("done.")
 
