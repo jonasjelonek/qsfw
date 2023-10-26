@@ -15,11 +15,10 @@ ANSI_COLOR_WHITE_OB = "\033[38;5;15;48;5;0m"
 ANSI_COLOR_BLACK_OW = "\033[38;5;0;48;5;15m"
 
 def print_version():
-	print(f"qsfw (Quantum Simulation Framework)")
+	print(f"qsfw (Quantum Simulation Framework)\n")
 	print(f"Version {QSFW_VERSION[0]}.{QSFW_VERSION[1]}.{QSFW_VERSION[2]}")
 	print("\nAuthor: Jonas Jelonek <jonas.jelonek@hs-nordhausen.de>")
 	print("Copyright © 2023 Jonas Jelonek")
-	exit()
 
 def run(args: argparse.Namespace):
 	if not args.warning:
@@ -76,10 +75,16 @@ def main():
 	)
 	parser.add_argument("-v", "--version",
 		help="Print version information.",
-		action=f"{print_version()}",
+		action=VersionAction,
+		nargs = 0
 	)
 	parser.add_argument("filepath")
 
 	args = parser.parse_args()
 	run(args)
 	return
+
+class VersionAction(argparse.Action):
+	def __call__(self, parser, namespace, values, option_string=None):
+		print_version()
+		parser.exit()
