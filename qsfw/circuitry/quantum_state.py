@@ -83,12 +83,15 @@ class QuantumState():
 	def is_valid_id(self, id: str) -> bool:
 		return (id in self.qubits_id.keys())
 
-	def __do_measurement(self, qubit: int):
+	def __do_measurement(self, qubit: (str, int)):
+		if not self.measured[qubit[0]] is None:
+			raise ValueError("Qubit already measured")
+
 		zero_components = dict()
 		one_components = dict()
 		for c_key in self.components.keys():
 			val = self.components[c_key]
-			if c_key[qubit] == 1:
+			if c_key[qubit[1]] == 1:
 				one_components[c_key] = val
 			else:
 				zero_components[c_key] = val
@@ -116,7 +119,7 @@ class QuantumState():
 		else:
 			raise ValueError
 
-		self.measured[qubit] = meas_result
+		self.measured[qubit[0]] = meas_result
 		self.__cleanup_components()
 		return
 
@@ -127,17 +130,14 @@ class QuantumState():
 		qubits_idx = []
 		for q in target_qubits:
 			if not self.is_valid_id(q):
-				raise ValueError(f"ID {q} is not a valid identifier")
-			
-			#if not self.measured[self.qubits_id[q]] is None:
-			#	raise ValueError("Qubit already measured")
+				raise ValueError(f"ID {q} is not a valid qubit identifier")
 
 			qubits_idx.append(self.qubits_id[q])
 
 		qubits_idx = tuple(qubits_idx)
 
 		if isinstance(gate, gt.Measurement):
-			self.__do_measurement(qubits_idx[0])
+			self.__do_measurement((target_qubits[0], qubits_idx[0]))
 			return
 
 		# Steps to apply gate to quantum state:
@@ -177,6 +177,10 @@ class QuantumState():
 			# Write back the adjusted shares to our partial states
 			for i in range(len(result)):
 				self.components[affected[i]] = result[i]
+
+		# Mark qubits that we applied a gate on as 'not measured' again
+		for q in target_qubits:
+			self.measured[q] = None
 
 		# Cleanup, i.e. order the dict by keys and remove entries with a share of 0+0j
 		self.__cleanup_components()
