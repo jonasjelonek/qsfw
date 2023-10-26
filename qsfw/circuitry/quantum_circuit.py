@@ -110,6 +110,9 @@ class QuantumCircuit():
 
 		return True
 
+	def has_next_step(self) -> bool:
+		return len(self.gates) > 0
+
 	def next_step(self) -> bool:
 		try:
 			(gate, qubits) = self.gates.popleft()

@@ -4,6 +4,23 @@ import warnings
 
 from qsfw.scripting.interpreter import QSInterpreter
 
+QSFW_VERSION = (1, 1, 0)
+
+# OB - on black background | OW - on white background
+ANSI_COLOR_YELLOW_OB = "\033[38;5;221;48;5;0m"
+ANSI_COLOR_BLUE_OB = "\033[38;5;33;48;5;0m"
+ANSI_COLOR_RED_OB = "\033[38;5;160;48;5;0m"
+ANSI_COLOR_GREEN_OB = "\033[38;5;2;48;5;0m"
+ANSI_COLOR_WHITE_OB = "\033[38;5;15;48;5;0m"
+ANSI_COLOR_BLACK_OW = "\033[38;5;0;48;5;15m"
+
+def print_version():
+	print(f"qsfw (Quantum Simulation Framework)")
+	print(f"Version {QSFW_VERSION[0]}.{QSFW_VERSION[1]}.{QSFW_VERSION[2]}")
+	print("\nAuthor: Jonas Jelonek <jonas.jelonek@hs-nordhausen.de>")
+	print("Copyright © 2023 Jonas Jelonek")
+	exit()
+
 def run(args: argparse.Namespace):
 	if not args.warning:
 		warnings.filterwarnings("ignore")
@@ -20,11 +37,17 @@ def run(args: argparse.Namespace):
 	intptr.parse_file(file_path)
 	qc = intptr.to_quantum_circuit()
 
-
+	print(
+		ANSI_COLOR_GREEN_OB,
+		"OUTPUT FORMAT:\nStep X:\n\t<partial state> :  <proportion of partial state to overall state>\n",
+		ANSI_COLOR_WHITE_OB,
+		sep = ""
+	)
 	if args.stepping:
 		i = 1
-		while qc.next_step():
+		while qc.has_next_step():
 			print(f"Step {i}: ")
+			qc.next_step()
 			qc.print_current_state()
 			i += 1
 	else:
@@ -43,13 +66,17 @@ def main():
 		help="Process step by step and print current quantum state after every step.",
 		action="store_true"
 	)
-	parser.add_argument("-v", "--verbose",
+	parser.add_argument("-V", "--verbose",
 		help="Print more messages/info, especially from parser, interpreter and other internals.",
 		action="store_true"
 	)
 	parser.add_argument("-w", "--warning",
 		help="Show warnings emitted by Python, possibly regarding calculations etc.",
 		action="store_true"
+	)
+	parser.add_argument("-v", "--version",
+		help="Print version information.",
+		action=f"{print_version()}",
 	)
 	parser.add_argument("filepath")
 

@@ -104,7 +104,7 @@ class QuantumState():
 			raise ValueError(f"0: {weight_zero} | 1: {weight_one} >> sum must be 1")
 
 		meas_result = (random.choices([0, 1], [ weight_zero, weight_one ]))[0]
-		print(f"Measurement result: {meas_result}")
+		print(f"\nMeasurement result: {meas_result}")
 
 		if meas_result == 0:
 			for e in zero_components.keys():
