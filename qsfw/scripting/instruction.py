@@ -81,6 +81,9 @@ class OneOf():
 This specifies the format (how many arguments, types of arguments) each function allows.
 It is used by the parser to check whether the instructions that were parsed from the token
 stream are semantically valid.
+
+This is quite a hardly readable mess at the moment and it bloats the code in interpreter.py.
+However, it at least for now allows to extend this without much of a hassle.
 """
 instructions_specs: dict[Function, InstructionSpec | tuple[InstructionSpec]] = {
 	Function.Circuit: (InstructionSpec(( ("n", IntegerLiteral), )), InstructionSpec(( ("*", (StringLiteral, IntegerLiteral)), ))),

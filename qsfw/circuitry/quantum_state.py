@@ -1,5 +1,4 @@
 from __future__ import annotations
-import itertools
 import numpy as np
 import functools
 import random
@@ -63,18 +62,6 @@ class QuantumState():
 		"""
 		Keep the base states/partial states with their shares.
 		"""
-
-		# THIS IS ONLY FOR DEBUGGING!
-		# The following code would fill the dictionary with all partial states
-		# and a default share of 0.0. This is not required for us but could be
-		# beneficial to understand that all better.
-		#if len(values) == 1:
-		#	self.components[(1,0)] = 0.0
-		#	self.components[(0,1)] = 0.0
-		#else:
-		#	base_states = [*itertools.product([0, 1], repeat=len(values))]
-		#	for b in base_states:
-		#		self.components[tuple(b)] = 0.0
 
 		# The share of the initial state is set to 1.0.
 		self.components[tuple(init_state)] = 1.0+0j

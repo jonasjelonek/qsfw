@@ -11,7 +11,7 @@ class QSLexer():
 		try:
 			it = BidirectionalIterator(content)
 			c = it.next()
-			while 1: # Go char by char
+			while 1:
 				keep_char = False
 
 				if c == '(':													# Left round bracket / parentheses
@@ -54,19 +54,19 @@ class QSLexer():
 						tokens.append(IntegerLiteral(num_lit))
 					else:
 						tokens.append(FloatLiteral(num_lit))
-				elif c == '/':
+				elif c == '/':													# everything that may start with /
 					next = it.next()
-					if next == '/': # comment until end of line
+					if next == '/': 											# comment until end of line
 						c = it.next()
 						while c != '\n':
 							c = it.next()
-					elif next == '*': # comment until */ is encountered
+					elif next == '*': 											# comment until */ is encountered
 						c = it.next()
 						next = it.next()
 						while not (c == '*' and next == '/'):
 							c = next
 							next = it.next()
-					else:													# Divison operator
+					else:														# Divison operator
 						tokens.append(DivOperator())
 				elif c == "+":													# Addition operator
 					tokens.append(PlusOperator())
