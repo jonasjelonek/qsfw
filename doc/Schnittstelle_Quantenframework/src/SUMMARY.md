@@ -1,5 +1,5 @@
 # Summary
 
+- [Einführung](./introduction.md)
 - [Schnittstellenbeschreibung](./interface_descr.md)
-- [Beispiel](./example.md)
 - [Changelog](./changelog.md)
