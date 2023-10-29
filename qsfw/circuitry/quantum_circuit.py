@@ -59,23 +59,23 @@ class QuantumCircuit():
 	# 1-Qubit-Gate shortcuts
 
 	def add_identity_gate(self, qubit: str):
-		self.add_gate(IdentityGate(), (qubit))
+		self.add_gate(IdentityGate(), (qubit,))
 	def add_hadamard_gate(self, qubit: str):
-		self.add_gate(HGate(), (qubit))
+		self.add_gate(HGate(), (qubit,))
 	def add_pauliX_gate(self, qubit: str):
-		self.add_gate(PauliXGate(), (qubit))
+		self.add_gate(PauliXGate(), (qubit,))
 	def add_pauliY_gate(self, qubit: str):
-		self.add_gate(PauliYGate(), (qubit))
+		self.add_gate(PauliYGate(), (qubit,))
 	def add_pauliZ_gate(self, qubit: str):
-		self.add_gate(PauliZGate(), (qubit))
+		self.add_gate(PauliZGate(), (qubit,))
 	def add_phase_gate(self, qubit: str, angle: float):
-		self.add_gate(PhaseGate(angle), (qubit))
+		self.add_gate(PhaseGate(angle), (qubit,))
 	def add_sphase_gate(self, qubit: str):
-		self.add_gate(SPhaseGate(), (qubit))
+		self.add_gate(SPhaseGate(), (qubit,))
 	def add_tphase_gate(self, qubit: str):
-		self.add_gate(TPhaseGate(), (qubit))
+		self.add_gate(TPhaseGate(), (qubit,))
 	def add_measurement_gate(self, qubit):
-		self.add_gate(Measurement(), (qubit))
+		self.add_gate(Measurement(), (qubit,))
 
 	# 2-Qubit-Gate shortcuts
 
