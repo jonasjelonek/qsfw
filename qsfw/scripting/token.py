@@ -61,7 +61,7 @@ class MulOperator(MathOperator):
 		super().__init__('*')
 class DivOperator(MathOperator):
 	def __init__(self):
-		super().__init__('+')
+		super().__init__('/')
 class Identifier(Token):
 	def __init__(self, id: str):
 		self.content = id

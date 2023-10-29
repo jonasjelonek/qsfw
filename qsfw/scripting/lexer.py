@@ -54,7 +54,7 @@ class QSLexer():
 						tokens.append(IntegerLiteral(num_lit))
 					else:
 						tokens.append(FloatLiteral(num_lit))
-				elif c == '/':													# Comments
+				elif c == '/':
 					next = it.next()
 					if next == '/': # comment until end of line
 						c = it.next()
@@ -66,14 +66,14 @@ class QSLexer():
 						while not (c == '*' and next == '/'):
 							c = next
 							next = it.next()
+					else:													# Divison operator
+						tokens.append(DivOperator())
 				elif c == "+":													# Addition operator
 					tokens.append(PlusOperator())
 				elif c == "-":													# Subtraction operator
 					tokens.append(MinusOperator())
 				elif c == "*":													# Multiplication operator
 					tokens.append(MulOperator())
-				elif c == "/":													# Divison operator
-					tokens.append(DivOperator())
 				elif c.isalpha():												# Identifiers
 					ident = c
 					c = it.next()
