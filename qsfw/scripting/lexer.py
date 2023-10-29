@@ -22,18 +22,11 @@ class QSLexer():
 					tokens.append(Semicolon())
 				elif c == ',':													# Comma
 					tokens.append(Comma())
-				elif c == '\'':													# String literal with single quotes
+				elif c == '\'' or c == '"':										# String literal with single or double quotes
+					terminator = c
 					lit = ''
 					c = it.next()
-					while c != '\'':
-						lit += c
-						c = it.next()
-					
-					tokens.append(StringLiteral(lit))
-				elif c == '"':													# String literal with double quotes
-					lit = ''
-					c = it.next()
-					while c != '"':
+					while c != terminator:
 						lit += c
 						c = it.next()
 					
