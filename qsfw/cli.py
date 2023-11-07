@@ -4,7 +4,7 @@ import warnings
 
 from qsfw.scripting.interpreter import QSInterpreter
 
-QSFW_VERSION = (1, 2, 0)
+QSFW_VERSION = (1, 2, 1)
 
 # OB - on black background | OW - on white background
 ANSI_COLOR_YELLOW_OB = "\033[38;5;221;48;5;0m"

@@ -2,6 +2,7 @@ from __future__ import annotations
 import numpy as np
 import functools
 import random
+import math
 
 import qsfw.circuitry.quantum_gate as gt
 
@@ -100,18 +101,16 @@ class QuantumState():
 			raise ValueError(f"0: {weight_zero} | 1: {weight_one} >> sum must be 1")
 
 		meas_result = (random.choices([0, 1], [ weight_zero, weight_one ]))[0]
-		if meas_result == 0:
+		
+		if len(zero_components) > 0:
+			zero_prop = 0.0+0j if meas_result == 1 else (1 / math.sqrt(len(zero_components)))
 			for e in zero_components.keys():
-				self.components[e] = 1.0+0j
+				self.components[e] = zero_prop
+
+		if len(one_components) > 0:
+			one_prop = 0.0+0j if meas_result == 0 else (1 / math.sqrt(len(one_components)))
 			for e in one_components.keys():
-				self.components[e] = 0.0+0j
-		elif meas_result == 1:
-			for e in zero_components.keys():
-				self.components[e] = 0.0+0j
-			for e in one_components.keys():
-				self.components[e] = 1.0+0j
-		else:
-			raise ValueError
+				self.components[e] = one_prop
 
 		self.measured[qubit[0]] = meas_result
 		self.__cleanup_components()
