@@ -49,10 +49,15 @@ class QSInterpreter():
 			num = int(circuit_args[0].content.get())
 			qc = qcct.QuantumCircuit(num)
 		else:
+			# Check for duplicates here
 			arg_dict = dict()
 			for arg in circuit_args:
 				key = arg.content[0].get()
 				val = arg.content[1].get()
+
+				if key in arg_dict.keys():
+					raise ValueError(f"Duplicate qubit identifier '{key}'")
+
 				arg_dict[key] = int(val)
 			
 			qc = qcct.QuantumCircuit(arg_dict)
