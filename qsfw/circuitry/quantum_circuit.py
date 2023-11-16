@@ -37,7 +37,7 @@ class QuantumCircuit():
 			self.quantum_state = QuantumState(values)
 		elif isinstance(qubits, dict):
 			for q in qubits.values():
-				assert q == '+' or q == '-' or 0 <= int(q) <= 1
+				assert 0 <= int(q) <= 1
 			
 			self.quantum_state = QuantumState(qubits)
 		else:
