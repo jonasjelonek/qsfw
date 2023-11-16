@@ -34,7 +34,7 @@ class QuantumCircuit():
 		# Initialise quantum state
 		if isinstance(qubits, int):
 			values = [0 for _ in range(qubits)]
-			self.quantum_state = QuantumState(values)
+			self.quantum_state = QuantumState(tuple(values))
 		elif isinstance(qubits, dict):
 			for q in qubits.values():
 				assert 0 <= int(q) <= 1
