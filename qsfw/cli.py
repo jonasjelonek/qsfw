@@ -4,7 +4,7 @@ import warnings
 
 from qsfw.scripting.interpreter import QSInterpreter
 
-QSFW_VERSION = (1, 2, 2)
+QSFW_VERSION = (1, 2, 3)
 
 def print_version():
 	print(f"qsfw (Quantum Simulation Framework)")
