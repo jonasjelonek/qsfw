@@ -23,11 +23,17 @@ class BidirectionalIterator(object):
 
 		return self.collection[self.index]
 	
-	def peek(self):
-		if (self.index + 1) >= len(self.collection):
+	def peek(self, n=1):
+		if (self.index + n) >= len(self.collection):
 			return None
 		
-		return self.collection[self.index + 1]
+		return self.collection[self.index + n]
+	
+	def advance_by(self, n):
+		if (self.index + n) >= len(self.collection):
+			return None
+		
+		self.index += n
 
 	def __iter__(self):
 		return self

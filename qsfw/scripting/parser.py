@@ -89,15 +89,6 @@ class QSParser():
 
 		return isinstance(token, StringLiteral)
 	
-	def __operator_as_literal(self, token: Token) -> bool:
-		"""__operator_as_literal
-		
-		Checks whether the token is a '+' or '-' which are allowed to be
-		used as value literals instead of '0' and '1'.
-		"""
-
-		return isinstance(token, (PlusOperator, MinusOperator))
-	
 	def __numeric_literal(self, token: Token) -> bool:
 		"""__numeric_literal
 		
@@ -146,7 +137,7 @@ class QSParser():
 			print(f"[parser] Expected left bracket for tuple but got '{type(token_it.current())}'")
 			return None
 		
-		if self.__string_literal(token_it.next()) or self.__operator_as_literal(token_it.current()):
+		if self.__string_literal(token_it.next()):
 			part = token_it.current()
 		else:
 			part = self.__numeric_expr(token_it)
@@ -160,7 +151,7 @@ class QSParser():
 
 		self.__expect_comma(token_it.next())
 
-		if self.__string_literal(token_it.next()) or self.__operator_as_literal(token_it.current()):
+		if self.__string_literal(token_it.next()):
 			part = token_it.current()
 		else:
 			part = self.__numeric_expr(token_it)
@@ -182,9 +173,9 @@ class QSParser():
 
 		token = token_it.next()
 		
-		if self.__string_literal(token) or self.__operator_as_literal(token_it.current()):
+		if self.__string_literal(token):
 			return Argument(token)
-		
+
 		arg = self.__numeric_expr(token_it)
 		if arg != None:
 			return Argument(arg)
