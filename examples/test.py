@@ -44,10 +44,6 @@ print("Endzustand:")
 z.print()
 
 print("\n================ TEST 3 ================")
-
-print("Aktuell nicht umsetzbar da keine überlagerten Anfangszustände angegeben werden können")
-
-print("\n================ TEST 4 ================")
 z = QuantumState((0, 1, 0, 1))
 cnot = qgt.CNOTGate()
 
@@ -66,7 +62,7 @@ z.apply_gate(cnot, ('1', '2'))
 print("Endzustand:")
 z.print()
 
-print("\n================ TEST 5 ================")
+print("\n================ TEST 4 ================")
 z = QuantumState((0, 1, 0, 1))
 cnot = qgt.CNOTGate()
 
@@ -85,7 +81,7 @@ z.apply_gate(cnot, ('2', '1'))
 print("Endzustand:")
 z.print()
 
-print("\n================ TEST 6 ================")
+print("\n================ TEST 5 ================")
 z = QuantumState((0, 1, 0, 1))
 ccnot = qgt.ToffoliGate()
 

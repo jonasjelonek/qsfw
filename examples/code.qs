@@ -23,5 +23,6 @@ toffoli(
     'c'
 ); hadamard('b');
 cnot('b', 'a');
+
 // Nach dem hier müssten a und b verschränkt sein 
 measure('a');

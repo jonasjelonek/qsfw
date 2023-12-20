@@ -6,14 +6,6 @@ from qsfw.scripting.interpreter import QSInterpreter
 
 QSFW_VERSION = (1, 2, 2)
 
-# OB - on black background | OW - on white background
-ANSI_COLOR_YELLOW_OB = "\033[38;5;221;48;5;0m"
-ANSI_COLOR_BLUE_OB = "\033[38;5;33;48;5;0m"
-ANSI_COLOR_RED_OB = "\033[38;5;160;48;5;0m"
-ANSI_COLOR_GREEN_OB = "\033[38;5;2;48;5;0m"
-ANSI_COLOR_WHITE_OB = "\033[38;5;15;48;5;0m"
-ANSI_COLOR_BLACK_OW = "\033[38;5;0;48;5;15m"
-
 def print_version():
 	print(f"qsfw (Quantum Simulation Framework)")
 	print(f"Version {QSFW_VERSION[0]}.{QSFW_VERSION[1]}.{QSFW_VERSION[2]}")

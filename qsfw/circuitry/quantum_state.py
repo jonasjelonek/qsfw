@@ -64,7 +64,7 @@ class QuantumState():
 		Keep the base states/partial states with their shares.
 		"""
 
-		# The share of the initial state is set to 1.0.
+		# The proportion of the initial state is set to 1.0.
 		self.components[tuple(init_state)] = 1.0+0j
 
 	def print(self):
@@ -74,7 +74,6 @@ class QuantumState():
 				s += str(state[i])
 			s += '>'
 
-			#print(s, ': ', str(self.components[state]), sep=None)
 			print(s, ': ', complex_to_string(self.components[state]), sep=None)
 
 	def is_valid_id(self, id: str) -> bool:
@@ -97,8 +96,7 @@ class QuantumState():
 		weight_zero = functools.reduce(pow_and_acc, zero_components.values(), 0.0)
 		weight_one = functools.reduce(pow_and_acc, one_components.values(), 0.0)
 		if round(weight_one + weight_zero) != 1:
-			print("Houston, we have a problem!")
-			raise ValueError(f"0: {weight_zero} | 1: {weight_one} >> sum must be 1")
+			raise ValueError(f"0: {weight_zero} | 1: {weight_one} >> sum of probabilities must be 1")
 
 		meas_result = (random.choices([0, 1], [ weight_zero, weight_one ]))[0]
 		
@@ -134,9 +132,9 @@ class QuantumState():
 
 		# Steps to apply gate to quantum state:
 		# 	- find out which partial states are affected by the operation
-		# 	- construct a vector from the shares of the affected states
+		# 	- construct a vector from the proportions of the affected states
 		# 	- do matrix multiplication of that vector with gate matrix
-		# 	- write back the adjusted shares to our state dictionary
+		# 	- write back the adjusted proporttions to our state dictionary
 		components_copy = self.components.copy()
 		already_processed = []
 		for c_key in components_copy.keys():
@@ -163,7 +161,7 @@ class QuantumState():
 
 			comp_vec = np.array(comp_vec)
 
-			# Matrix of the gate adjusts the shares by simply matrix multiplication
+			# Matrix of the gate adjusts the proportions by simple matrix multiplication
 			result = gate.matrix @ comp_vec		# operator for matrix multiplication (Python 3.5+)
 
 			# Write back the adjusted shares to our partial states
@@ -212,7 +210,7 @@ class QuantumState():
 			elif (1.0 - abs(self.components[c_key].imag)) < 1e-10:
 				self.components[c_key] = self.components[c_key].real + (imag_sign * 1j)
 
-			# Remove all entries that have a share of ~0.0
+			# Remove all entries that have a proportion of ~0.0
 			if self.components[c_key] == 0.0+0j:
 				del self.components[c_key]
 

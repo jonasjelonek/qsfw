@@ -35,9 +35,6 @@ class QSInterpreter():
 		if self.__verbose:
 			print(f"[interpreter] Successfully parsed instructions from token stream")
 
-	def to_python_code(self) -> list[str]:
-		pass
-
 	def to_quantum_circuit(self) -> qcct.QuantumCircuit:
 		# first instruction must be 'circuit'
 		if self.instructions[0].function != Function.Circuit:

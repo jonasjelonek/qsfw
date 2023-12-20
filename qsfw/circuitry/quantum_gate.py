@@ -122,20 +122,18 @@ class CZGate(Q2Gate):
 		Q2Gate.__init__(self)
 		self.matrix[0,0] = self.matrix[1,1] = self.matrix[2,2] = 1
 		self.matrix[3,3] = -1
-		# Rest ist 0
 
 class CPhaseGate(Q2Gate):
 	def __init__(self, angle: float):
 		Q2Gate.__init__(self)
 		self.matrix[0,0] = self.matrix[1,1] = self.matrix[2,2] = 1
 		self.matrix[3,3] = cmath.exp(IMAG * angle)
-		# Rest ist 0
 
 # #############################################################################
 # #### 3-Qubit-Gates ##########################################################
 # #############################################################################
 
-class ToffoliGate(Q3Gate):
+class ToffoliGate(Q3Gate): # CCNOT
 	def __init__(self):
 		Q3Gate.__init__(self)
 		self.matrix[0,0] = self.matrix[1,1] = self.matrix[2,2] = 1
