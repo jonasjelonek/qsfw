@@ -84,7 +84,7 @@ class QSLexer():
 				elif c.isalpha():												# Identifiers
 					ident = c
 					c = it.next()
-					while c.isalpha() or c == "_":
+					while c.isalpha() or c == "_" or c == "-":
 						ident += c
 						c = it.next()
 
