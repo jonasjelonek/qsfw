@@ -164,7 +164,7 @@ class QuantumState():
 			# Matrix of the gate adjusts the proportions by simple matrix multiplication
 			result = gate.matrix @ comp_vec		# operator for matrix multiplication (Python 3.5+)
 
-			# Write back the adjusted shares to our partial states
+			# Write back the adjusted proportions to our partial states
 			for i in range(len(result)):
 				self.components[affected[i]] = result[i]
 
